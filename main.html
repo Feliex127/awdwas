@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星辰之境 | Starlike Realm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 星際背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 頁首 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #3a3aff;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .logo h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #4cff4c, #3a3aff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(58, 58, 255, 0.5);
+        }
+
+        .server-address h3 {
+            font-size: 1.2rem;
+            color: #4cff4c;
+            margin-bottom: 5px;
+        }
+
+        .server-address p {
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+
+        /* 導航標籤 */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            background-color: rgba(20, 20, 40, 0.8);
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab {
+            padding: 15px 30px;
+            background-color: transparent;
+            border: none;
+            color: #a0a0ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: rgba(58, 58, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .tab.active {
+            background-color: #3a3aff;
+            color: white;
+            box-shadow: 0 0 15px rgba(58, 58, 255, 0.5);
+        }
+
+        /* 標籤內容 */
+        .tab-content {
+            display: none;
+            background-color: rgba(15, 15, 35, 0.85);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #3a3aff;
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 宣傳文頁面 */
+        .intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro h2 {
+            font-size: 2.2rem;
+            color: #4cff4c;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(76, 255, 76, 0.5);
+        }
+
+        .intro p {
+            font-size: 1.2rem;
+            color: #c0c0ff;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background-color: rgba(30, 30, 60, 0.7);
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid #4cff4c;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(76, 255, 76, 0.3);
+        }
+
+        .feature i {
+            font-size: 2.5rem;
+            color: #3a3aff;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            font-size: 1.5rem;
+            color: #4cff4c;
+            margin-bottom: 10px;
+        }
+
+        /* 圖片庫頁面 */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .image-card {
+            background-color: rgba(30, 30, 60, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .image-card:hover {
+            transform: scale(1.03);
+            border-color: #3a3aff;
+            box-shadow: 0 5px 20px rgba(58, 58, 255, 0.4);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-info {
+            padding: 20px;
+        }
+
+        .image-info h3 {
+            color: #4cff4c;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .image-info p {
+            color: #c0c0ff;
+            line-height: 1.5;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 25px;
+            border-top: 1px solid #3a3aff;
+            margin-top: 50px;
+            color: #a0a0ff;
+            font-size: 0.9rem;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星際背景 -->
+    <div class="stars" id="stars-container"></div>
+
+    <div class="container">
+        <!-- 頁首 -->
+        <header>
+            <div class="logo">
+                <img src="resource/logo.png" alt="星辰之境 Logo" class="logo-img">
+                <h1>星辰之境 | Starlike Realm</h1>
+            </div>
+            <div class="server-address">
+                <h3><i class="fas fa-server"></i> tpe1-frp.lazco.dev:10466</h3>
+                <p>版本: 任意</p>
+            </div>
+        </header>
+
+        <!-- 標籤導航 -->
+        <div class="tabs">
+            <button class="tab active" data-tab="about">伺服器介紹</button>
+            <button class="tab" data-tab="gallery">伺服器相簿</button>
+        </div>
+
+        <!-- 宣傳文標籤頁 -->
+        <div id="about" class="tab-content active">
+            <div class="intro">
+                <h2>歡迎來到星辰之境 | Starlike Realm！</h2>
+                <p>建造屬於你的夢想家園，與好友一同冒險！</p>
+                <p>我們提供友善的遊戲環境，讓每位玩家都能找到屬於自己的樂趣。</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>伺服器網站</h3>
+                    <p>我們提供完善的伺服器網站。</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-users"></i>
+                    <h3>友善社群</h3>
+                    <p>我們擁有活躍且友善的玩家社群。</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>完善保護</h3>
+                    <p>領地保護系統，防止他人破壞你的建築，讓你的創作安全無虞。</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>經濟</h3>
+                    <p>我們提供穩定的經濟系統，讓玩家可以自由交易與發展。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 伺服器圖片標籤頁 -->
+        <div id="gallery" class="tab-content">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #4cff4c;">伺服器精彩畫面</h2>
+            <div class="gallery">
+                <div class="image-card">
+                    <img src="resource/1.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="resource/2.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="resource/3.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="resource/4.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="resource/5.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="resource/6.png" alt="text">
+                    <div class="image-info">
+                        <h3>text</h3>
+                        <p>text</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 頁尾 -->
+        <footer>
+            <p>星辰之境 | Starlike Realm &copy; 2026 - 所有權利保留</p>
+            <p>聯繫我們: Discord: https://discord.gg/6Px9ZE5nPm</p>
+        </footer>
+    </div>
+
+    <script>
+        // 生成星星背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 隨機大小
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 隨機位置
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                
+                // 隨機動畫延遲
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // 標籤頁切換功能
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 移除所有標籤和內容的active類
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // 為當前標籤添加active類
+                    tab.classList.add('active');
+                    
+                    // 顯示對應的內容
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // 圖片載入錯誤處理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.onerror = function() {
+                    // 如果圖片載入失敗，顯示替代內容
+                    if (this.classList.contains('logo-img')) {
+                        // 如果是logo圖片，顯示替代圖標
+                        this.style.display = 'none';
+                        const icon = document.createElement('i');
+                        icon.className = 'fas fa-cube';
+                        icon.style.fontSize = '2.5rem';
+                        icon.style.color = '#4cff4c';
+                        this.parentNode.insertBefore(icon, this);
+                    } else {
+                        // 如果是其他圖片，顯示預覽文字
+                        this.style.backgroundColor = '#2a2a5a';
+                        this.style.display = 'flex';
+                        this.style.alignItems = 'center';
+                        this.style.justifyContent = 'center';
+                        this.style.color = '#4cff4c';
+                        this.style.fontSize = '1.2rem';
+                        this.style.fontWeight = 'bold';
+                        this.innerHTML = '<div>圖片預覽</div>';
+                    }
+                };
+            });
+        });
+    </script>
+</body>
+</html>
